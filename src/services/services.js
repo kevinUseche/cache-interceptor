@@ -1,17 +1,13 @@
 import axios from 'axios'
-import { useCache } from './cache'
+import { useCache } from '../cache/cache'
 
-const cache = useCache({
-  cacheName: 'prueba-1',
-  cacheVersion: 1,
-})
+const cache = useCache()
 
 export const getData = async (url) => {
-  const data = await cache.getCachedData(url)
-  if (data) return data
+  const responseCache = cache.readFromCache(url)
+  if (responseCache) return responseCache
   console.log('Refresh data...')
-  const response = await fetch(url)
-  if (!response.ok) throw Error('Error getData')
-  await cache.setCacheData(url, response)
-  return await response.json()
+  const { data } = await axios.get(url)
+  cache.writeToCache(url, data)
+  return data
 }

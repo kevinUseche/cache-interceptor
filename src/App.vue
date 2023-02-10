@@ -1,6 +1,6 @@
 <script setup>
   import { onMounted } from "vue"
-  import { getData } from "./services/services";
+  import { getData } from "./services/services"
 
   onMounted(async () => {
     const url = 'https://jsonplaceholder.typicode.com/todos/2'
